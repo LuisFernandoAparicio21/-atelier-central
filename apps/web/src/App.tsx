@@ -108,10 +108,6 @@ export default function App() {
     );
   }
 
-  if (!user) {
-    return <LoginPage />;
-  }
-
   return (
     <div className="min-h-screen bg-surface text-on-surface selection:bg-primary/10">
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} onNewSale={() => openDrawer('income')} />
