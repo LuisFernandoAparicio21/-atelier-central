@@ -39,7 +39,7 @@ import type { Transaction } from './1_domain/Transaction';
 export default function App() {
   const { activeTab, setActiveTab, openDrawer, drawerOpen, drawerType, closeDrawer } = useUIStore();
   const { transactions, dateFilter, setDateFilter, addTransaction, fetchAll } = useTransactionStore();
-  const { loading, initialize } = useAuthStore();
+  const { user, loading, initialize } = useAuthStore();
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
   // Custom date range state
@@ -64,8 +64,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetchAll();
-  }, []);
+    if (user) fetchAll();
+  }, [user]);
 
   // Apply date filter — for 'custom' use the date range inputs
   const filteredTransactions = (() => {
@@ -90,6 +90,8 @@ export default function App() {
       setShowCustomPicker(false);
     }
   };
+
+  if (!loading && !user) return <LoginPage />;
 
   if (loading) {
     return (
